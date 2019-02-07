@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
+import idx from 'idx';
+
+import * as GraphQLTypes from './graphqlTypes';
+import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
+
+const restaurantsQuery = gql`
+  query RestaurantsQuery {
+    search(
+      categories: "restaurant"
+      location: "25 York Street, Toronto, ontario, canada"
+      radius: 400
+      sort_by: "rating_value"
+    ) {
+      business {
+        ...ResultItemBusinessFragment
+      }
+    }
+  }
+  ${ResultItemBusinessFragment}
+`;
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Query<GraphQLTypes.RestaurantsQuery> query={restaurantsQuery}>
+          {({ data, loading }) => {
+            if (loading) {
+              return '...';
+            }
+            const businesses = idx(data, d => d.search.business) || [];
+            return businesses.map(business => (
+              <ResultItem business={business} key={business.id} />
+            ));
+          }}
+        </Query>
       </div>
     );
   }
