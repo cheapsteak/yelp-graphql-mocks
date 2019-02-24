@@ -46,6 +46,8 @@ const App = () => {
               >
                 <div
                   className={css`
+                    display: flex;
+                    flex-direction: column;
                     width: 400px;
                     overflow-y: auto;
                   `}

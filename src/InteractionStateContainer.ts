@@ -5,6 +5,9 @@ const useInteractionState = () => {
   const [businessIdInFocus, setBusinessIdInFocus] = useState<string | null>(
     null
   );
+  const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(
+    null
+  );
   const [focusTriggerSource, setFocusTriggerSource] = useState<
     'list' | 'map' | null
   >(null);
@@ -19,6 +22,9 @@ const useInteractionState = () => {
       setBusinessIdInFocus(businessId);
       setFocusTriggerSource(triggerSource);
     },
+
+    selectedBusinessId,
+    setSelectedBusinessId,
   };
 };
 

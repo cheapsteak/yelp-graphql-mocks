@@ -1,7 +1,7 @@
 import React, { useRef, useContext } from 'react';
 import _ from 'lodash';
 import { css } from 'emotion';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import gql from 'graphql-tag';
 import WebMercatorViewport from 'viewport-mercator-project';
 import useComponentSize from '@rehooks/component-size';
@@ -10,6 +10,7 @@ import * as GraphQLTypes from '../graphqlTypes';
 import InteractionStateContainer from '../InteractionStateContainer';
 
 import Pin from './Pin';
+import Info from './Info';
 
 export const ResultsMapBusinessFragment = gql`
   fragment ResultsMapBusinessFragment on Business {
@@ -29,9 +30,12 @@ const ResultsMap: React.FunctionComponent<{
   let size = useComponentSize(ref);
   const hasSize = size.width !== 0;
 
-  const { businessIdInFocus, focusOnBusinessId } = useContext(
-    InteractionStateContainer.Context
-  );
+  const {
+    businessIdInFocus,
+    focusOnBusinessId,
+    selectedBusinessId,
+    setSelectedBusinessId,
+  } = useContext(InteractionStateContainer.Context);
 
   const viewport = new WebMercatorViewport({
     width: size.width,
@@ -83,19 +87,29 @@ const ResultsMap: React.FunctionComponent<{
           mapStyle="mapbox://styles/garnwraly/cjsidduzq1bc11flev56ws8gp"
         >
           {businesses.map(business => (
-            <Marker
-              key={business.id as string}
-              latitude={business.coordinates!.latitude as number}
-              longitude={business.coordinates!.longitude as number}
-              offsetLeft={-20}
-              offsetTop={-10}
-            >
-              <Pin
-                isFocused={businessIdInFocus === business.id}
-                onMouseEnter={() => focusOnBusinessId(business.id, 'map')}
-                onMouseLeave={() => focusOnBusinessId(null, 'map')}
-              />
-            </Marker>
+            <>
+              <Marker
+                key={business.id as string}
+                latitude={business.coordinates!.latitude as number}
+                longitude={business.coordinates!.longitude as number}
+                offsetLeft={-20}
+                offsetTop={-10}
+              >
+                <Pin
+                  isFocused={businessIdInFocus === business.id}
+                  onMouseEnter={() => focusOnBusinessId(business.id, 'map')}
+                  onMouseLeave={() => focusOnBusinessId(null, 'map')}
+                  onClick={() => setSelectedBusinessId(business.id)}
+                />
+              </Marker>
+              {selectedBusinessId === business.id && (
+                <Info
+                  businessId={business.id as string}
+                  latitude={business.coordinates!.latitude as number}
+                  longitude={business.coordinates!.longitude as number}
+                />
+              )}
+            </>
           ))}
         </ReactMapGL>
       )}

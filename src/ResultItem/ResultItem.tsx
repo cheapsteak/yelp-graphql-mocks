@@ -32,14 +32,24 @@ function isElementInViewport(element: HTMLElement) {
   );
 }
 
+const buttonOverrideStyles = css`
+  text-align: left;
+  appearance: initial;
+  border: 0;
+  padding: 0;
+  display: block;
+`;
+
 const ResultItem: React.FunctionComponent<{
   business: GraphQLTypes.ResultItemBusinessFragment;
 }> = ({ business }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const {
     businessIdInFocus,
     focusTriggerSource,
     focusOnBusinessId,
+    selectedBusinessId,
+    setSelectedBusinessId,
   } = useContext(InteractionStateContainer.Context);
   useEffect(() => {
     if (
@@ -56,9 +66,10 @@ const ResultItem: React.FunctionComponent<{
   }, [businessIdInFocus, focusTriggerSource]);
 
   return (
-    <div
+    <button
       ref={ref}
       className={cx(
+        buttonOverrideStyles,
         css`
           display: flex;
           height: 110px;
@@ -89,6 +100,8 @@ const ResultItem: React.FunctionComponent<{
       )}
       onMouseEnter={() => focusOnBusinessId(business.id, 'list')}
       onMouseLeave={() => focusOnBusinessId(null, 'list')}
+      onFocus={() => focusOnBusinessId(business.id, 'list')}
+      onClick={() => setSelectedBusinessId(business.id)}
     >
       <div
         className={css`
@@ -113,6 +126,7 @@ const ResultItem: React.FunctionComponent<{
       >
         <h3
           className={css`
+            margin-top: 0.4em;
             margin-bottom: 0.2em;
           `}
         >
@@ -149,7 +163,7 @@ const ResultItem: React.FunctionComponent<{
             .join(', ')}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
