@@ -12,15 +12,9 @@ export const ResultItemBusinessFragment = gql`
     photos
     review_count
     rating
-    location {
-      address1
-      address2
-      address3
-      city
-      state
-      postal_code
-      country
-      formatted_address
+    price
+    categories {
+      title
     }
   }
 `;
@@ -32,13 +26,17 @@ const ResultItem: React.FunctionComponent<{
     <div
       className={css`
         display: flex;
+        &:nth-of-type(even) {
+          background-color: #f9f9f9;
+        }
       `}
     >
       <div
         className={css`
-          width: 100px;
-          height: 100px;
+          width: 110px;
+          height: 110px;
           background: #f0f0f0;
+          flex-shrink: 0;
           ${business.photos &&
             css`
               background-image: url('${business.photos[0]}');
@@ -51,10 +49,16 @@ const ResultItem: React.FunctionComponent<{
         className={css`
           display: flex;
           flex-direction: column;
-          margin-left: 10px;
+          margin: 10px;
         `}
       >
-        <div>{business.name}</div>
+        <h3
+          className={css`
+            margin-bottom: 0.2em;
+          `}
+        >
+          {business.name}
+        </h3>
         <div>
           {business.rating && (
             <span
@@ -73,6 +77,17 @@ const ResultItem: React.FunctionComponent<{
               </span>
             </span>
           )}
+        </div>
+        <div
+          className={css`
+            margin-top: 0.4em;
+            color: #666;
+          `}
+        >
+          {business.price} -{' '}
+          {(business.categories || [])
+            .map(category => category && category.title)
+            .join(', ')}
         </div>
       </div>
     </div>

@@ -5,53 +5,12 @@
 // GraphQL query operation: RestaurantsQuery
 // ====================================================
 
-export interface RestaurantsQuery_search_business_location {
-  __typename: "Location";
+export interface RestaurantsQuery_search_business_categories {
+  __typename: "Category";
   /**
-   * Street address of this business.
+   * Title of a category for display purposes.
    */
-  address1: string | null;
-  /**
-   * Street address of this business, continued.
-   */
-  address2: string | null;
-  /**
-   * Street address of this business, continued.
-   */
-  address3: string | null;
-  /**
-   * City of this business.
-   */
-  city: string | null;
-  /**
-   * ISO 3166-2 (with a few exceptions) state code of this business.
-   */
-  state: string | null;
-  /**
-   * Postal code of this business.
-   */
-  postal_code: string | null;
-  /**
-   * ISO 3166-1 alpha-2 country code of this business.
-   */
-  country: string | null;
-  /**
-   * Array of strings that if organized vertically give an address that is in the
-   * standard address format for the business's country.
-   */
-  formatted_address: string | null;
-}
-
-export interface RestaurantsQuery_search_business_coordinates {
-  __typename: "Coordinates";
-  /**
-   * The latitude of this business.
-   */
-  latitude: number | null;
-  /**
-   * The longitude of this business.
-   */
-  longitude: number | null;
+  title: string | null;
 }
 
 export interface RestaurantsQuery_search_business {
@@ -77,13 +36,14 @@ export interface RestaurantsQuery_search_business {
    */
   rating: number | null;
   /**
-   * The location of this business, including address, city, state, postal code and country.
+   * Price level of the business. Value is one of $, $$, $$$ and $$$$ or null if we
+   * don't have price available for the business.
    */
-  location: RestaurantsQuery_search_business_location | null;
+  price: string | null;
   /**
-   * The coordinates of this business.
+   * A list of category title and alias pairs associated with this business.
    */
-  coordinates: RestaurantsQuery_search_business_coordinates | null;
+  categories: (RestaurantsQuery_search_business_categories | null)[] | null;
 }
 
 export interface RestaurantsQuery_search {
@@ -108,53 +68,12 @@ export interface RestaurantsQuery {
 // GraphQL fragment: ResultItemBusinessFragment
 // ====================================================
 
-export interface ResultItemBusinessFragment_location {
-  __typename: "Location";
+export interface ResultItemBusinessFragment_categories {
+  __typename: "Category";
   /**
-   * Street address of this business.
+   * Title of a category for display purposes.
    */
-  address1: string | null;
-  /**
-   * Street address of this business, continued.
-   */
-  address2: string | null;
-  /**
-   * Street address of this business, continued.
-   */
-  address3: string | null;
-  /**
-   * City of this business.
-   */
-  city: string | null;
-  /**
-   * ISO 3166-2 (with a few exceptions) state code of this business.
-   */
-  state: string | null;
-  /**
-   * Postal code of this business.
-   */
-  postal_code: string | null;
-  /**
-   * ISO 3166-1 alpha-2 country code of this business.
-   */
-  country: string | null;
-  /**
-   * Array of strings that if organized vertically give an address that is in the
-   * standard address format for the business's country.
-   */
-  formatted_address: string | null;
-}
-
-export interface ResultItemBusinessFragment_coordinates {
-  __typename: "Coordinates";
-  /**
-   * The latitude of this business.
-   */
-  latitude: number | null;
-  /**
-   * The longitude of this business.
-   */
-  longitude: number | null;
+  title: string | null;
 }
 
 export interface ResultItemBusinessFragment {
@@ -180,13 +99,45 @@ export interface ResultItemBusinessFragment {
    */
   rating: number | null;
   /**
-   * The location of this business, including address, city, state, postal code and country.
+   * Price level of the business. Value is one of $, $$, $$$ and $$$$ or null if we
+   * don't have price available for the business.
    */
-  location: ResultItemBusinessFragment_location | null;
+  price: string | null;
+  /**
+   * A list of category title and alias pairs associated with this business.
+   */
+  categories: (ResultItemBusinessFragment_categories | null)[] | null;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: ResultsMapFragment
+// ====================================================
+
+export interface ResultsMapFragment_coordinates {
+  __typename: "Coordinates";
+  /**
+   * The latitude of this business.
+   */
+  latitude: number | null;
+  /**
+   * The longitude of this business.
+   */
+  longitude: number | null;
+}
+
+export interface ResultsMapFragment {
+  __typename: "Business";
+  /**
+   * Yelp ID of this business.
+   */
+  id: string | null;
   /**
    * The coordinates of this business.
    */
-  coordinates: ResultItemBusinessFragment_coordinates | null;
+  coordinates: ResultsMapFragment_coordinates | null;
 }
 
 /* tslint:disable */

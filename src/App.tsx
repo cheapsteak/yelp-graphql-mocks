@@ -6,6 +6,7 @@ import { css, cx } from 'emotion';
 
 import * as GraphQLTypes from './graphqlTypes';
 import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
+import ResultsMap from './ResultsMap';
 
 const restaurantsQuery = gql`
   query RestaurantsQuery {
@@ -49,6 +50,24 @@ class App extends Component {
                   {businesses.map(business => (
                     <ResultItem business={business} key={business.id} />
                   ))}
+                </div>
+                <div
+                  className={css`
+                    position: relative;
+                    background-color: #ddd;
+                    flex-grow: 1;
+                  `}
+                >
+                  <div
+                    className={css`
+                      position: sticky;
+                      top: 0;
+                      width: 100%;
+                      height: 100vh;
+                    `}
+                  >
+                    <ResultsMap businesses={businesses} />
+                  </div>
                 </div>
               </div>
             );
