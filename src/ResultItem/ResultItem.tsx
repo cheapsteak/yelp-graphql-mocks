@@ -72,16 +72,17 @@ const ResultItem: React.FunctionComponent<{
         buttonOverrideStyles,
         css`
           display: flex;
+          align-items: stretch;
           height: 110px;
           overflow-y: hidden;
-          &:nth-of-type(even) {
+          &:nth-of-type(even) > * {
             background-color: #f9f9f9;
           }
-          &:nth-of-type(odd) {
+          &:nth-of-type(odd) > * {
             background-color: #ffffff;
           }
           &:hover,
-          &:focus {
+          &:focus > * {
             background-color: #fffff0;
           }
 
@@ -100,7 +101,34 @@ const ResultItem: React.FunctionComponent<{
           focusTriggerSource === 'map' &&
           css`
             filter: grayscale(1);
-          `
+          `,
+        css`
+          & > * {
+            transition: 0.1s transform;
+            transform: translateX(0);
+          }
+          & > *:first-child {
+            box-shadow: -3px 0 14px 4px rgba(0, 0, 0, 0.3);
+          }
+          &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #900;
+          }
+          ${selectedBusinessId === business.id &&
+            css`
+              color: #900;
+              & > * {
+                transform: translateX(10px);
+              }
+            `}
+        `
       )}
       onMouseEnter={() => focusOnBusinessId(business.id, 'list')}
       onMouseLeave={() => focusOnBusinessId(null, 'list')}
@@ -125,7 +153,8 @@ const ResultItem: React.FunctionComponent<{
         className={css`
           display: flex;
           flex-direction: column;
-          margin: 10px;
+          padding: 10px;
+          flex-grow: 1;
         `}
       >
         <h3
