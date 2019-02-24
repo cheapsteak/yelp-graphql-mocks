@@ -1,9 +1,9 @@
 import React from 'react';
 import { css } from 'emotion';
 import gql from 'graphql-tag';
-import { Rating } from 'semantic-ui-react';
 
 import * as GraphQLTypes from '../graphqlTypes';
+import Rating from './Rating';
 
 export const ResultItemBusinessFragment = gql`
   fragment ResultItemBusinessFragment on Business {
@@ -21,10 +21,6 @@ export const ResultItemBusinessFragment = gql`
       postal_code
       country
       formatted_address
-    }
-    coordinates {
-      latitude
-      longitude
     }
   }
 `;
@@ -49,19 +45,29 @@ const ResultItem: React.FunctionComponent<{
       <div
         className={css`
           display: flex;
+          flex-direction: column;
         `}
       >
-        {business.name}
-        {business.rating && (
-          <span
-            className={css`
-              margin-left: auto;
-            `}
-          >
-            <Rating rating={business.rating} maxRating={5} disabled /> (
-            {business.review_count} reviews)
-          </span>
-        )}
+        <div>{business.name}</div>
+        <div>
+          {business.rating && (
+            <span
+              className={css`
+                display: flex;
+                align-items: center;
+              `}
+            >
+              <Rating rating={business.rating} />
+              <span
+                className={css`
+                  margin-left: 0.5em;
+                `}
+              >
+                {business.review_count} reviews
+              </span>
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
