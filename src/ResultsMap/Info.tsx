@@ -7,7 +7,7 @@ import InteractionStateContainer from '../InteractionStateContainer';
 import * as GraphQLTypes from '../graphqlTypes';
 import { css } from 'emotion';
 
-const markerInfoQuery = gql`
+export const markerInfoQuery = gql`
   query MarkerInfoQuery($businessId: String!) {
     business(id: $businessId) {
       id
