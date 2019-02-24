@@ -26,6 +26,8 @@ const ResultItem: React.FunctionComponent<{
     <div
       className={css`
         display: flex;
+        height: 110px;
+        overflow-y: hidden;
         &:nth-of-type(even) {
           background-color: #f9f9f9;
         }
