@@ -87,9 +87,8 @@ const ResultsMap: React.FunctionComponent<{
           mapStyle="mapbox://styles/garnwraly/cjsidduzq1bc11flev56ws8gp"
         >
           {businesses.map(business => (
-            <>
+            <React.Fragment key={business.id as string}>
               <Marker
-                key={business.id as string}
                 latitude={business.coordinates!.latitude as number}
                 longitude={business.coordinates!.longitude as number}
                 offsetLeft={-20}
@@ -109,7 +108,7 @@ const ResultsMap: React.FunctionComponent<{
                   longitude={business.coordinates!.longitude as number}
                 />
               )}
-            </>
+            </React.Fragment>
           ))}
         </ReactMapGL>
       )}

@@ -81,6 +81,36 @@ export interface RestaurantsQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: MarkerInfoQuery
+// ====================================================
+
+export interface MarkerInfoQuery_business {
+  __typename: "Business";
+  /**
+   * Yelp ID of this business.
+   */
+  id: string | null;
+  /**
+   * Name of this business.
+   */
+  name: string | null;
+}
+
+export interface MarkerInfoQuery {
+  /**
+   * Load information about a specific business.
+   */
+  business: MarkerInfoQuery_business | null;
+}
+
+export interface MarkerInfoQueryVariables {
+  businessId: string;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: ResultItemBusinessFragment
 // ====================================================
 
