@@ -2,30 +2,28 @@ import React from 'react';
 import { cx, css } from 'emotion';
 
 const Pin: React.FunctionComponent<
-  { isFocused: boolean } & React.HTMLAttributes<HTMLOrSVGElement>
-> = ({ className, isFocused, ...passthroughProps }) => {
+  { isDeemphasized: boolean } & React.HTMLAttributes<HTMLOrSVGElement>
+> = ({ className, isDeemphasized, ...passthroughProps }) => {
+  const size = 20;
   return (
     <svg
       className={cx(
         css`
-          transform: scale(${isFocused ? 1.3 : 1});
-          transform-origin: center bottom;
-          transition: 0.1s transform;
+          transition: 0.1s filter;
+          cursor: pointer;
+
           & path {
-            ${isFocused
-              ? css`
-                  stroke: #f77;
-                  fill: #f77;
-                `
-              : css`
-                  stroke: #fff;
-                  fill: #d00;
-                `}
+            stroke: #fff;
+            fill: #d00;
           }
+          ${isDeemphasized &&
+            css`
+              filter: grayscale(0.5) opacity(0.3) brightness(2);
+            `}
         `,
         className
       )}
-      height="20"
+      height={size}
       viewBox="0 0 24 24"
       {...passthroughProps}
     >

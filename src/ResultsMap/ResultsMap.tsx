@@ -95,7 +95,9 @@ const ResultsMap: React.FunctionComponent<{
                 offsetTop={-10}
               >
                 <Pin
-                  isFocused={businessIdInFocus === business.id}
+                  isDeemphasized={
+                    !!businessIdInFocus && businessIdInFocus !== business.id
+                  }
                   onMouseEnter={() => focusOnBusinessId(business.id, 'map')}
                   onMouseLeave={() => focusOnBusinessId(null, 'map')}
                   onClick={() => setSelectedBusinessId(business.id)}
