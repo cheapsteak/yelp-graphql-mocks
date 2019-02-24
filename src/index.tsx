@@ -9,7 +9,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import 'sanitize.css';
 
-import App from './App';
+import SearchResults from './SearchResults';
 
 injectGlobal`
   #root {
@@ -38,13 +38,13 @@ const render = (Component: React.ComponentType) => {
   );
 };
 
-render(App);
+render(SearchResults);
 
 // @ts-ignore Property 'hot' does not exist on type 'NodeModule'
 if (module.hot) {
   // @ts-ignore Property 'hot' does not exist on type 'NodeModule'
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default;
+  module.hot.accept('./SearchResults', () => {
+    const NextApp = require('./SearchResults').default;
     render(NextApp);
   });
 }
