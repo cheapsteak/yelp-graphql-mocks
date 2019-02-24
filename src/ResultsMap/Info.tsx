@@ -47,7 +47,8 @@ const Info: React.FunctionComponent<{
           businessId,
         }}
       >
-        {({ data, loading }) => {
+        {({ data, loading, error }) => {
+          if (error) throw error;
           if (loading) return '...';
           if (!data) return 'no data';
           if (!data.business) return 'no business';
