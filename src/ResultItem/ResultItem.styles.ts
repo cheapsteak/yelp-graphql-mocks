@@ -28,13 +28,14 @@ export const useResultItemWrapperStyles = (
       align-items: stretch;
       height: 110px;
       overflow-y: hidden;
+      cursor: pointer;
       &:nth-of-type(even) > * {
         background-color: #f9f9f9;
       }
       &:nth-of-type(odd) > * {
         background-color: #ffffff;
       }
-      &:hover,
+      &:hover > *,
       &:focus > * {
         background-color: #fffff0;
       }
