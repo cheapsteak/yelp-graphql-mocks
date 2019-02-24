@@ -6,7 +6,7 @@ import { css, cx } from 'emotion';
 
 import * as GraphQLTypes from './graphqlTypes';
 import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
-import ResultsMap from './ResultsMap';
+import ResultsMap, { ResultsMapBusinessFragment } from './ResultsMap';
 
 const restaurantsQuery = gql`
   query RestaurantsQuery {
@@ -18,10 +18,12 @@ const restaurantsQuery = gql`
     ) {
       business {
         ...ResultItemBusinessFragment
+        ...ResultsMapBusinessFragment
       }
     }
   }
   ${ResultItemBusinessFragment}
+  ${ResultsMapBusinessFragment}
 `;
 
 class App extends Component {

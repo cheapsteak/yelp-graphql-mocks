@@ -13,6 +13,18 @@ export interface RestaurantsQuery_search_business_categories {
   title: string | null;
 }
 
+export interface RestaurantsQuery_search_business_coordinates {
+  __typename: "Coordinates";
+  /**
+   * The latitude of this business.
+   */
+  latitude: number | null;
+  /**
+   * The longitude of this business.
+   */
+  longitude: number | null;
+}
+
 export interface RestaurantsQuery_search_business {
   __typename: "Business";
   /**
@@ -44,6 +56,10 @@ export interface RestaurantsQuery_search_business {
    * A list of category title and alias pairs associated with this business.
    */
   categories: (RestaurantsQuery_search_business_categories | null)[] | null;
+  /**
+   * The coordinates of this business.
+   */
+  coordinates: RestaurantsQuery_search_business_coordinates | null;
 }
 
 export interface RestaurantsQuery_search {
@@ -113,10 +129,10 @@ export interface ResultItemBusinessFragment {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: ResultsMapFragment
+// GraphQL fragment: ResultsMapBusinessFragment
 // ====================================================
 
-export interface ResultsMapFragment_coordinates {
+export interface ResultsMapBusinessFragment_coordinates {
   __typename: "Coordinates";
   /**
    * The latitude of this business.
@@ -128,7 +144,7 @@ export interface ResultsMapFragment_coordinates {
   longitude: number | null;
 }
 
-export interface ResultsMapFragment {
+export interface ResultsMapBusinessFragment {
   __typename: "Business";
   /**
    * Yelp ID of this business.
@@ -137,7 +153,7 @@ export interface ResultsMapFragment {
   /**
    * The coordinates of this business.
    */
-  coordinates: ResultsMapFragment_coordinates | null;
+  coordinates: ResultsMapBusinessFragment_coordinates | null;
 }
 
 /* tslint:disable */
