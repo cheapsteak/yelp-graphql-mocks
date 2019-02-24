@@ -41,7 +41,7 @@ const Rating: React.FunctionComponent<{ rating: number }> = ({ rating }) => {
                 font-size: 12px;
                 position: relative;
                 color: #ffffff;
-                padding: 1px 5px 2px;
+                padding: 3px 5px 4px;
                 margin: 1px;
                 border-radius: 3px;
                 overflow: hidden;

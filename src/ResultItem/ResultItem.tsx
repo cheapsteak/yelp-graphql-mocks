@@ -126,34 +126,37 @@ const ResultItem: React.FunctionComponent<{
       >
         <h3
           className={css`
-            margin-top: 0.4em;
+            margin-top: 0.2em;
             margin-bottom: 0.2em;
           `}
         >
           {business.name}
         </h3>
-        <div>
-          {business.rating && (
+
+        {business.rating && (
+          <span
+            className={css`
+              display: flex;
+              align-items: center;
+              flex-shrink: 0;
+            `}
+          >
+            <Rating rating={business.rating} />
             <span
               className={css`
-                display: flex;
-                align-items: center;
+                margin-left: 0.5em;
+                font-size: 14px;
               `}
             >
-              <Rating rating={business.rating} />
-              <span
-                className={css`
-                  margin-left: 0.5em;
-                `}
-              >
-                {business.review_count} reviews
-              </span>
+              {business.review_count} reviews
             </span>
-          )}
-        </div>
+          </span>
+        )}
+
         <div
           className={css`
-            margin-top: 0.4em;
+            margin-top: 0.2em;
+            font-size: 14px;
             color: #666;
           `}
         >
