@@ -8,7 +8,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 
 import 'sanitize.css';
-import 'semantic-ui-css/semantic.min.css';
 
 import App from './App';
 
