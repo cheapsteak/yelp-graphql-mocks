@@ -1,13 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import _ from 'lodash';
+import { css } from 'emotion';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import gql from 'graphql-tag';
 import WebMercatorViewport from 'viewport-mercator-project';
 import useComponentSize from '@rehooks/component-size';
 
 import * as GraphQLTypes from '../graphqlTypes';
+import InteractionStateContainer from '../InteractionStateContainer';
+
 import Pin from './Pin';
-import { css } from 'emotion';
 
 export const ResultsMapBusinessFragment = gql`
   fragment ResultsMapBusinessFragment on Business {
@@ -26,6 +28,10 @@ const ResultsMap: React.FunctionComponent<{
   let ref = useRef(null);
   let size = useComponentSize(ref);
   const hasSize = size.width !== 0;
+
+  const { businessIdInFocus, setBusinessIdInFocus } = useContext(
+    InteractionStateContainer.Context
+  );
 
   const viewport = new WebMercatorViewport({
     width: size.width,
@@ -84,7 +90,11 @@ const ResultsMap: React.FunctionComponent<{
               offsetLeft={-20}
               offsetTop={-10}
             >
-              <Pin size={20} />
+              <Pin
+                isFocused={businessIdInFocus === business.id}
+                onMouseEnter={() => setBusinessIdInFocus(business.id)}
+                onMouseLeave={() => setBusinessIdInFocus(null)}
+              />
             </Marker>
           ))}
         </ReactMapGL>

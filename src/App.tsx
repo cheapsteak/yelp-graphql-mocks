@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import idx from 'idx';
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 
 import * as GraphQLTypes from './graphqlTypes';
 import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
 import ResultsMap, { ResultsMapBusinessFragment } from './ResultsMap';
+import InteractionStateContainer from './InteractionStateContainer';
 
 const restaurantsQuery = gql`
   query RestaurantsQuery {
@@ -26,10 +27,10 @@ const restaurantsQuery = gql`
   ${ResultsMapBusinessFragment}
 `;
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
+const App = () => {
+  return (
+    <div className="App">
+      <InteractionStateContainer.Provider>
         <Query<GraphQLTypes.RestaurantsQuery> query={restaurantsQuery}>
           {({ data, loading }) => {
             if (loading) {
@@ -75,9 +76,9 @@ class App extends Component {
             );
           }}
         </Query>
-      </div>
-    );
-  }
-}
+      </InteractionStateContainer.Provider>
+    </div>
+  );
+};
 
 export default App;

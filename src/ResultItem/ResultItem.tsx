@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { css } from 'emotion';
 import gql from 'graphql-tag';
 
 import * as GraphQLTypes from '../graphqlTypes';
 import Rating from './Rating';
+import InteractionStateContainer from '../InteractionStateContainer';
 
 export const ResultItemBusinessFragment = gql`
   fragment ResultItemBusinessFragment on Business {
@@ -22,6 +23,9 @@ export const ResultItemBusinessFragment = gql`
 const ResultItem: React.FunctionComponent<{
   business: GraphQLTypes.ResultItemBusinessFragment;
 }> = ({ business }) => {
+  const { businessIdInFocus, setBusinessIdInFocus } = useContext(
+    InteractionStateContainer.Context
+  );
   return (
     <div
       className={css`
@@ -32,6 +36,8 @@ const ResultItem: React.FunctionComponent<{
           background-color: #f9f9f9;
         }
       `}
+      onMouseEnter={() => setBusinessIdInFocus(business.id)}
+      onMouseLeave={() => setBusinessIdInFocus(null)}
     >
       <div
         className={css`
