@@ -44,6 +44,7 @@ const Rating: React.FunctionComponent<{ rating: number }> = ({ rating }) => {
                 padding: 1px 5px 2px;
                 margin: 1px;
                 border-radius: 3px;
+                overflow: hidden;
                 background-color: ${isActive
                   ? getActiveBgColorByRating(rating)
                   : '#CCCCCC'};
