@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { css } from 'emotion';
+import React, { useContext, useRef, useEffect } from 'react';
+import { css, cx } from 'emotion';
 import gql from 'graphql-tag';
 
 import * as GraphQLTypes from '../graphqlTypes';
@@ -20,24 +20,75 @@ export const ResultItemBusinessFragment = gql`
   }
 `;
 
+function isElementInViewport(element: HTMLElement) {
+  var rect = element.getBoundingClientRect();
+
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
 const ResultItem: React.FunctionComponent<{
   business: GraphQLTypes.ResultItemBusinessFragment;
 }> = ({ business }) => {
-  const { businessIdInFocus, setBusinessIdInFocus } = useContext(
-    InteractionStateContainer.Context
-  );
+  const ref = useRef<HTMLDivElement>(null);
+  const {
+    businessIdInFocus,
+    focusTriggerSource,
+    focusOnBusinessId,
+  } = useContext(InteractionStateContainer.Context);
+  useEffect(() => {
+    if (
+      businessIdInFocus === business.id &&
+      focusTriggerSource !== 'list' &&
+      ref.current &&
+      !isElementInViewport(ref.current)
+    ) {
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [businessIdInFocus, focusTriggerSource]);
+
   return (
     <div
-      className={css`
-        display: flex;
-        height: 110px;
-        overflow-y: hidden;
-        &:nth-of-type(even) {
-          background-color: #f9f9f9;
-        }
-      `}
-      onMouseEnter={() => setBusinessIdInFocus(business.id)}
-      onMouseLeave={() => setBusinessIdInFocus(null)}
+      ref={ref}
+      className={cx(
+        css`
+          display: flex;
+          height: 110px;
+          overflow-y: hidden;
+          &:nth-of-type(even) {
+            background-color: #f9f9f9;
+          }
+          &:nth-of-type(odd) {
+            background-color: #ffffff;
+          }
+
+          transition: 0.1s filter;
+          filter: grayscale(0);
+        `,
+        businessIdInFocus === business.id &&
+          focusTriggerSource === 'map' &&
+          css`
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+          `,
+        businessIdInFocus &&
+          businessIdInFocus !== business.id &&
+          focusTriggerSource === 'map' &&
+          css`
+            filter: grayscale(1);
+          `
+      )}
+      onMouseEnter={() => focusOnBusinessId(business.id, 'list')}
+      onMouseLeave={() => focusOnBusinessId(null, 'list')}
     >
       <div
         className={css`

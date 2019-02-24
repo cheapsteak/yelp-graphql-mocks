@@ -29,7 +29,7 @@ const ResultsMap: React.FunctionComponent<{
   let size = useComponentSize(ref);
   const hasSize = size.width !== 0;
 
-  const { businessIdInFocus, setBusinessIdInFocus } = useContext(
+  const { businessIdInFocus, focusOnBusinessId } = useContext(
     InteractionStateContainer.Context
   );
 
@@ -92,8 +92,8 @@ const ResultsMap: React.FunctionComponent<{
             >
               <Pin
                 isFocused={businessIdInFocus === business.id}
-                onMouseEnter={() => setBusinessIdInFocus(business.id)}
-                onMouseLeave={() => setBusinessIdInFocus(null)}
+                onMouseEnter={() => focusOnBusinessId(business.id, 'map')}
+                onMouseLeave={() => focusOnBusinessId(null, 'map')}
               />
             </Marker>
           ))}

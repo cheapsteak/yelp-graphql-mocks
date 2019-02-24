@@ -5,9 +5,20 @@ const useInteractionState = () => {
   const [businessIdInFocus, setBusinessIdInFocus] = useState<string | null>(
     null
   );
+  const [focusTriggerSource, setFocusTriggerSource] = useState<
+    'list' | 'map' | null
+  >(null);
+
   return {
     businessIdInFocus,
-    setBusinessIdInFocus,
+    focusTriggerSource,
+    focusOnBusinessId: (
+      businessId: string | null,
+      triggerSource: 'list' | 'map'
+    ) => {
+      setBusinessIdInFocus(businessId);
+      setFocusTriggerSource(triggerSource);
+    },
   };
 };
 
