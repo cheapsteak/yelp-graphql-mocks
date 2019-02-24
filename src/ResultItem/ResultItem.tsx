@@ -80,6 +80,10 @@ const ResultItem: React.FunctionComponent<{
           &:nth-of-type(odd) {
             background-color: #ffffff;
           }
+          &:hover,
+          &:focus {
+            background-color: #fffff0;
+          }
 
           transition: 0.1s filter;
           filter: grayscale(0);
