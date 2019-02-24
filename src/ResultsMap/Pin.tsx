@@ -8,8 +8,11 @@ const Pin: React.FunctionComponent<
     <svg
       className={cx(
         css`
-          stroke: none;
           transform: translate(${-size / 2}px, ${-size}px);
+          & path {
+            stroke: #fff;
+            fill: #d00;
+          }
         `,
         className
       )}
