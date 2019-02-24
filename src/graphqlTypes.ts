@@ -84,6 +84,43 @@ export interface RestaurantsQuery {
 // GraphQL query operation: MarkerInfoQuery
 // ====================================================
 
+export interface MarkerInfoQuery_business_location {
+  __typename: "Location";
+  /**
+   * Street address of this business.
+   */
+  address1: string | null;
+  /**
+   * Street address of this business, continued.
+   */
+  address2: string | null;
+  /**
+   * Street address of this business, continued.
+   */
+  address3: string | null;
+  /**
+   * City of this business.
+   */
+  city: string | null;
+  /**
+   * ISO 3166-2 (with a few exceptions) state code of this business.
+   */
+  state: string | null;
+  /**
+   * Postal code of this business.
+   */
+  postal_code: string | null;
+  /**
+   * ISO 3166-1 alpha-2 country code of this business.
+   */
+  country: string | null;
+  /**
+   * Array of strings that if organized vertically give an address that is in the
+   * standard address format for the business's country.
+   */
+  formatted_address: string | null;
+}
+
 export interface MarkerInfoQuery_business {
   __typename: "Business";
   /**
@@ -94,6 +131,10 @@ export interface MarkerInfoQuery_business {
    * Name of this business.
    */
   name: string | null;
+  /**
+   * The location of this business, including address, city, state, postal code and country.
+   */
+  location: MarkerInfoQuery_business_location | null;
 }
 
 export interface MarkerInfoQuery {

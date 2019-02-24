@@ -5,12 +5,17 @@ import gql from 'graphql-tag';
 
 import InteractionStateContainer from '../InteractionStateContainer';
 import * as GraphQLTypes from '../graphqlTypes';
+import { css } from 'emotion';
 
 const markerInfoQuery = gql`
   query MarkerInfoQuery($businessId: String!) {
     business(id: $businessId) {
       id
       name
+      location {
+        address1
+        address2
+      }
     }
   }
 `;
@@ -32,6 +37,9 @@ const Info: React.FunctionComponent<{
       latitude={latitude}
       closeOnClick={false}
       onClose={() => setSelectedBusinessId(null)}
+      className={css`
+        z-index: 10;
+      `}
     >
       <Query<GraphQLTypes.MarkerInfoQuery>
         query={markerInfoQuery}
@@ -41,7 +49,26 @@ const Info: React.FunctionComponent<{
       >
         {({ data, loading }) => {
           if (loading) return '...';
-          return data && data.business && data.business.name;
+          if (!data) return 'no data';
+          if (!data.business) return 'no business';
+
+          return (
+            <div>
+              <h4
+                className={css`
+                  margin: 0 0 0.2em;
+                `}
+              >
+                {data.business.name}
+              </h4>
+              <address>
+                {data.business.location && data.business.location.address1}
+                {data.business.location &&
+                  data.business.location.address2 &&
+                  ', ' + data.business.location.address2}
+              </address>
+            </div>
+          );
         }}
       </Query>
     </Popup>
