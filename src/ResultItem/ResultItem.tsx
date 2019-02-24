@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import * as GraphQLTypes from '../graphqlTypes';
 import Rating from './Rating';
 import InteractionStateContainer from '../InteractionStateContainer';
+import { useResultItemWrapperStyles } from './ResultItem.styles';
 
 export const ResultItemBusinessFragment = gql`
   fragment ResultItemBusinessFragment on Business {
@@ -32,14 +33,6 @@ function isElementInViewport(element: HTMLElement) {
   );
 }
 
-const buttonOverrideStyles = css`
-  text-align: left;
-  appearance: initial;
-  border: 0;
-  padding: 0;
-  display: block;
-`;
-
 const ResultItem: React.FunctionComponent<{
   business: GraphQLTypes.ResultItemBusinessFragment;
 }> = ({ business }) => {
@@ -48,7 +41,6 @@ const ResultItem: React.FunctionComponent<{
     businessIdInFocus,
     focusTriggerSource,
     focusOnBusinessId,
-    selectedBusinessId,
     setSelectedBusinessId,
   } = useContext(InteractionStateContainer.Context);
   useEffect(() => {
@@ -65,71 +57,12 @@ const ResultItem: React.FunctionComponent<{
     }
   }, [businessIdInFocus, focusTriggerSource]);
 
+  const wrapperStyles = useResultItemWrapperStyles(business);
+
   return (
     <button
       ref={ref}
-      className={cx(
-        buttonOverrideStyles,
-        css`
-          display: flex;
-          align-items: stretch;
-          height: 110px;
-          overflow-y: hidden;
-          &:nth-of-type(even) > * {
-            background-color: #f9f9f9;
-          }
-          &:nth-of-type(odd) > * {
-            background-color: #ffffff;
-          }
-          &:hover,
-          &:focus > * {
-            background-color: #fffff0;
-          }
-
-          transition: 0.1s filter;
-          filter: grayscale(0);
-        `,
-        businessIdInFocus === business.id &&
-          focusTriggerSource === 'map' &&
-          css`
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
-          `,
-        businessIdInFocus &&
-          businessIdInFocus !== business.id &&
-          focusTriggerSource === 'map' &&
-          css`
-            filter: grayscale(1);
-          `,
-        css`
-          & > * {
-            transition: 0.1s transform;
-            transform: translateX(0);
-          }
-          & > *:first-child {
-            box-shadow: -3px 0 14px 4px rgba(0, 0, 0, 0.3);
-          }
-          &:after {
-            content: '';
-            display: block;
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #900;
-          }
-          ${selectedBusinessId === business.id &&
-            css`
-              color: #900;
-              & > * {
-                transform: translateX(10px);
-              }
-            `}
-        `
-      )}
+      className={cx(wrapperStyles)}
       onMouseEnter={() => focusOnBusinessId(business.id, 'list')}
       onMouseLeave={() => focusOnBusinessId(null, 'list')}
       onFocus={() => focusOnBusinessId(business.id, 'list')}
