@@ -29,9 +29,15 @@ const ResultItem: React.FunctionComponent<{
   business: GraphQLTypes.ResultItemBusinessFragment;
 }> = ({ business }) => {
   return (
-    <div>
+    <div
+      className={css`
+        display: flex;
+      `}
+    >
       <div
         className={css`
+          width: 100px;
+          height: 100px;
           background: #f0f0f0;
           ${business.photos &&
             css`
@@ -39,13 +45,13 @@ const ResultItem: React.FunctionComponent<{
               background-size: cover;
               background-position: center;
             `}
-          height: 200px;
         `}
       />
       <div
         className={css`
           display: flex;
           flex-direction: column;
+          margin-left: 10px;
         `}
       >
         <div>{business.name}</div>

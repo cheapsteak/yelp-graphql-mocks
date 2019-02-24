@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { injectGlobal } from 'emotion';
+
 import { createHttpLink } from 'apollo-link-http';
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -9,6 +11,12 @@ import 'sanitize.css';
 import 'semantic-ui-css/semantic.min.css';
 
 import App from './App';
+
+injectGlobal`
+  #root {
+    height: 100%;
+  } 
+`;
 
 const client = new ApolloClient({
   link: createHttpLink({
@@ -22,9 +30,22 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
-);
+const render = (Component: React.ComponentType) => {
+  return ReactDOM.render(
+    <ApolloProvider client={client}>
+      <Component />
+    </ApolloProvider>,
+    document.getElementById('root')
+  );
+};
+
+render(App);
+
+// @ts-ignore Property 'hot' does not exist on type 'NodeModule'
+if (module.hot) {
+  // @ts-ignore Property 'hot' does not exist on type 'NodeModule'
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App').default;
+    render(NextApp);
+  });
+}

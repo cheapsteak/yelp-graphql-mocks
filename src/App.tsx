@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import idx from 'idx';
+import { css, cx } from 'emotion';
 
 import * as GraphQLTypes from './graphqlTypes';
 import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
@@ -32,9 +33,25 @@ class App extends Component {
               return '...';
             }
             const businesses = idx(data, d => d.search.business) || [];
-            return businesses.map(business => (
-              <ResultItem business={business} key={business.id} />
-            ));
+            return (
+              <div
+                className={css`
+                  display: flex;
+                  height: 100%;
+                `}
+              >
+                <div
+                  className={css`
+                    width: 400px;
+                    overflow-y: auto;
+                  `}
+                >
+                  {businesses.map(business => (
+                    <ResultItem business={business} key={business.id} />
+                  ))}
+                </div>
+              </div>
+            );
           }}
         </Query>
       </div>
