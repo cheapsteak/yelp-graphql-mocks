@@ -41,6 +41,7 @@ const ResultItem: React.FunctionComponent<{
     businessIdInFocus,
     focusTriggerSource,
     focusOnBusinessId,
+    selectedBusinessId,
     setSelectedBusinessId,
   } = useContext(InteractionStateContainer.Context);
   useEffect(() => {
@@ -66,7 +67,11 @@ const ResultItem: React.FunctionComponent<{
       onMouseEnter={() => focusOnBusinessId(business.id, 'list')}
       onMouseLeave={() => focusOnBusinessId(null, 'list')}
       onFocus={() => focusOnBusinessId(business.id, 'list')}
-      onClick={() => setSelectedBusinessId(business.id)}
+      onClick={() =>
+        setSelectedBusinessId(
+          selectedBusinessId === business.id ? null : business.id
+        )
+      }
     >
       <div
         className={css`

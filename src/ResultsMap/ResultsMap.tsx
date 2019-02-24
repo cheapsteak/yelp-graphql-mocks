@@ -100,7 +100,11 @@ const ResultsMap: React.FunctionComponent<{
                   }
                   onMouseEnter={() => focusOnBusinessId(business.id, 'map')}
                   onMouseLeave={() => focusOnBusinessId(null, 'map')}
-                  onClick={() => setSelectedBusinessId(business.id)}
+                  onClick={() =>
+                    setSelectedBusinessId(
+                      selectedBusinessId === business.id ? null : business.id
+                    )
+                  }
                 />
               </Marker>
               {selectedBusinessId === business.id && (
