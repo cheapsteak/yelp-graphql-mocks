@@ -9,13 +9,18 @@ import ResultItem, { ResultItemBusinessFragment } from './ResultItem';
 import ResultsMap, { ResultsMapBusinessFragment } from './ResultsMap';
 import InteractionStateContainer from './InteractionStateContainer';
 
-const restaurantsQuery = gql`
-  query RestaurantsQuery {
+export const restaurantsQuery = gql`
+  query RestaurantsQuery(
+    $categories: String!
+    $location: String!
+    $radius: Float!
+    $sortBy: String!
+  ) {
     search(
-      categories: "restaurant"
-      location: "25 York Street, Toronto, ontario, canada"
-      radius: 400
-      sort_by: "rating_value"
+      categories: $categories
+      location: $location
+      radius: $radius
+      sort_by: $sortBy
     ) {
       business {
         ...ResultItemBusinessFragment
@@ -30,8 +35,17 @@ const restaurantsQuery = gql`
 const SearchResults = () => {
   return (
     <InteractionStateContainer.Provider>
-      <Query<GraphQLTypes.RestaurantsQuery> query={restaurantsQuery}>
-        {({ data, loading }) => {
+      <Query<GraphQLTypes.RestaurantsQuery>
+        query={restaurantsQuery}
+        variables={{
+          categories: 'restaurant',
+          location: '25 York Street, Toronto, ontario, canada',
+          radius: 400,
+          sortBy: 'rating_value',
+        }}
+      >
+        {({ data, loading, error }) => {
+          if (error) throw error;
           if (loading) {
             return '...';
           }
