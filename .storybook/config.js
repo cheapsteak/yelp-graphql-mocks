@@ -4,7 +4,7 @@ import { injectGlobal } from 'emotion';
 const req = require.context('../src', true, /\.stories\.(js|ts|tsx)$/);
 
 injectGlobal`
-  html, body, #root {
+  html, body {
     height: 100%;
   } 
 `;

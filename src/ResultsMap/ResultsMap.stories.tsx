@@ -103,7 +103,7 @@ storiesOf('SearchPage', module)
     <div
       className={css`
         width: 100%;
-        height: 100%;
+        height: 100vh;
       `}
     >
       <AutoMockedProvider
