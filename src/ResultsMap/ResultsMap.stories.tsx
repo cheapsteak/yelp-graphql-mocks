@@ -27,8 +27,17 @@ const businesses: GraphQLTypes.ResultsMapBusinessFragment[] = [
     id: 'y',
     coordinates: {
       __typename: 'Coordinates',
-      latitude: 43.63316,
-      longitude: -79.3922,
+      latitude: 43.642079,
+      longitude: -79.3784532,
+    },
+  },
+  {
+    __typename: 'Business',
+    id: 'z',
+    coordinates: {
+      __typename: 'Coordinates',
+      latitude: 43.64522,
+      longitude: -79.38385,
     },
   },
 ];
@@ -38,7 +47,7 @@ storiesOf('SearchPage', module)
     <div
       className={css`
         width: 100%;
-        height: 100%;
+        height: 100vh;
       `}
     >
       <MockedProvider
@@ -57,7 +66,7 @@ storiesOf('SearchPage', module)
                   id: 'x',
                   name: 'Burger Place',
                   location: {
-                    address1: 'Toronto',
+                    address1: 'Toronto St',
                     address2: 'Unit 2',
                   },
                 },
@@ -77,7 +86,27 @@ storiesOf('SearchPage', module)
                   id: 'y',
                   name: 'Noodle Place',
                   location: {
-                    address1: 'Toronto',
+                    address1: 'Toronto St',
+                    address2: 'Unit 1',
+                  },
+                },
+              },
+            },
+          },
+          {
+            request: {
+              query: markerInfoQuery,
+              variables: {
+                businessId: 'z',
+              },
+            },
+            result: {
+              data: {
+                business: {
+                  id: 'z',
+                  name: 'Sushi Place',
+                  location: {
+                    address1: 'Toronto st',
                     address2: 'Unit 1',
                   },
                 },
@@ -98,7 +127,7 @@ storiesOf('SearchPage', module)
     );
   });
 
-storiesOf('SearchPage', module)
+storiesOf('SearchPage (Auto-Mocked)', module)
   .addDecorator(story => (
     <div
       className={css`
@@ -122,7 +151,7 @@ storiesOf('SearchPage', module)
       </AutoMockedProvider>
     </div>
   ))
-  .add('ResultsMap (Auto-Mocked)', () => {
+  .add('ResultsMap', () => {
     return (
       <InteractionStateContainer.Provider>
         <ResultsMap businesses={businesses} />

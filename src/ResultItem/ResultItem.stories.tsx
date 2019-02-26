@@ -1,8 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { Query } from 'react-apollo';
 
+import * as GraphQLTypes from '../graphqlTypes';
 import ResultItem from './ResultItem';
 import InteractionStateContainer from '../InteractionStateContainer';
+import { restaurantsQuery } from '../SearchResults';
+import AutoMockedProvider from '../utils/mocks/AutoMockedProvider';
+import resolvers from '../utils/mocks/resolvers';
 
 storiesOf('SearchPage', module).add('ResultItem', () => {
   return (
@@ -25,5 +30,39 @@ storiesOf('SearchPage', module).add('ResultItem', () => {
         }}
       />
     </InteractionStateContainer.Provider>
+  );
+});
+
+storiesOf('SearchPage (Auto-Mocked)', module).add('ResultItem', () => {
+  return (
+    <AutoMockedProvider mockResolvers={resolvers}>
+      <Query<GraphQLTypes.RestaurantsQuery>
+        query={restaurantsQuery}
+        variables={{
+          categories: 'restaurant',
+          location: 'Toronto',
+          radius: 400,
+          sortBy: 'rating_value',
+        }}
+      >
+        {({ data, loading }) => {
+          if (loading || !data || !data.search) {
+            return null;
+          }
+          return (
+            <InteractionStateContainer.Provider>
+              {data && data.search && data.search.business && (
+                <ResultItem
+                  business={
+                    data.search
+                      .business[0] as GraphQLTypes.RestaurantsQuery_search_business
+                  }
+                />
+              )}
+            </InteractionStateContainer.Provider>
+          );
+        }}
+      </Query>
+    </AutoMockedProvider>
   );
 });
