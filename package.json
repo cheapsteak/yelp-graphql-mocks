@@ -37,7 +37,7 @@
     "apollo:codegen": "apollo client:codegen --passthroughCustomScalars --outputFlat --target=typescript src/graphqlTypes.ts",
     "apollo:schema:download": "apollo service:download schema.json && graphql-introspection-json-to-sdl schema.json > schema.graphql",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public -o build/storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
