@@ -83,7 +83,10 @@ const ResultsMap: React.FunctionComponent<{
           width="100%"
           height="100%"
           viewState={fittedViewport}
-          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_API_TOKEN}
+          mapboxApiAccessToken={
+            process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ||
+            process.env.STORYBOOK_MAPBOX_ACCESS_TOKEN
+          }
           mapStyle="mapbox://styles/garnwraly/cjsidduzq1bc11flev56ws8gp"
         >
           {businesses.map(business => (
