@@ -84,6 +84,8 @@ const ResultsMap: React.FunctionComponent<{
           height="100%"
           viewState={fittedViewport}
           mapboxApiAccessToken={
+            // Note: need to check both until this is resolved:
+            // https://github.com/storybooks/storybook/issues/4841
             process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ||
             process.env.STORYBOOK_MAPBOX_ACCESS_TOKEN
           }
